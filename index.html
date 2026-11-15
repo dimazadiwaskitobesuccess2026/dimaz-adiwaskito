@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- EDIT: judul tab browser dan deskripsi untuk Google -->
+  <title>Nama Kamu | Front-End Developer</title>
+  <meta name="description" content="Portofolio Nama Kamu: front-end developer dengan latar belakang database, monitoring, dan testing.">
+
+  <!-- Font dari Google Fonts. Kalau gagal dimuat, browser pakai font cadangan di CSS. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============ 1. VARIABEL WARNA ============
+       Ubah warna cukup di sini, semua bagian halaman ikut berubah. */
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --text: #15202b;
+      --muted: #55616f;
+      --line: #d9e0e8;
+      --accent: #0b5fff;
+      --accent-text: #ffffff;
+      --ok: #1a8f4c;
+    }
+    /* Mode gelap: otomatis mengikuti pengaturan perangkat... */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0e141b; --surface: #16202b; --text: #e8eef5; --muted: #9aa8b7;
+        --line: #26333f; --accent: #6ea0ff; --accent-text: #0e141b; --ok: #4cc983;
+      }
+    }
+    /* ...atau dipaksa lewat tombol tema (diatur oleh JavaScript di bawah). */
+    :root[data-theme="dark"] {
+      --bg: #0e141b; --surface: #16202b; --text: #e8eef5; --muted: #9aa8b7;
+      --line: #26333f; --accent: #6ea0ff; --accent-text: #0e141b; --ok: #4cc983;
+    }
+
+    /* ============ 2. DASAR ============ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      line-height: 1.65;
+    }
+    h1, h2, h3 {
+      font-family: "Bricolage Grotesque", system-ui, sans-serif;
+      line-height: 1.15;
+      margin: 0;
+    }
+    a { color: var(--accent); }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 1.25rem; }
+    section { padding: 4rem 0; border-top: 1px solid var(--line); }
+    section h2 { font-size: 1.75rem; margin-bottom: 1.5rem; }
+    p { max-width: 65ch; margin: 0 0 1rem; }
+
+    /* ============ 3. NAVBAR (Flexbox) ============ */
+    header { position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--line); z-index: 5; }
+    nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; flex-wrap: wrap; }
+    nav ul { display: flex; gap: 1.25rem; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+    nav a { color: var(--text); text-decoration: none; }
+    nav a:hover { color: var(--accent); }
+    .brand { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700; }
+    .theme-btn {
+      background: none; border: 1px solid var(--line); color: var(--text);
+      border-radius: 999px; padding: 0.35rem 0.9rem; cursor: pointer; font: inherit;
+    }
+
+    /* ============ 4. HERO ============ */
+    .hero { padding: 5rem 0 4rem; border-top: none; }
+    .hero h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); max-width: 18ch; margin-bottom: 1.25rem; }
+    .hero p { font-size: 1.15rem; color: var(--muted); }
+
+    /* Panel status: idenya dari pengalaman monitoring kamu */
+    .status {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 8px; padding: 0.55rem 0.9rem; margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--ok); }
+    @media (prefers-reduced-motion: no-preference) {
+      .dot { animation: denyut 2s ease-in-out infinite; }
+    }
+    @keyframes denyut { 50% { opacity: 0.35; } }
+
+    .btn {
+      display: inline-block; background: var(--accent); color: var(--accent-text);
+      padding: 0.7rem 1.4rem; border-radius: 8px; text-decoration: none; font-weight: 500;
+    }
+    .btn:hover { filter: brightness(1.1); }
+
+    /* ============ 5. SKILL & PROYEK (Grid) ============ */
+    .skills { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .skill-box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 1.1rem 1.25rem; }
+    .skill-box h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .skill-box p { margin: 0; color: var(--muted); }
+
+    .projects { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+    .card img, .thumb {
+      width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block;
+      background: var(--line);
+    }
+    .thumb { display: grid; place-items: center; color: var(--muted); font-size: 0.9rem; }
+    .card-body { padding: 1.1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+    .card h3 { font-size: 1.2rem; }
+    .card p { margin: 0; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; list-style: none; margin: 0; padding: 0; }
+    .tags li { border: 1px solid var(--line); border-radius: 999px; padding: 0.1rem 0.65rem; font-size: 0.85rem; }
+    .links { margin-top: auto; display: flex; gap: 1rem; }
+
+    footer { border-top: 1px solid var(--line); padding: 2rem 0; color: var(--muted); font-size: 0.9rem; }
+    .contact-list { display: flex; flex-wrap: wrap; gap: 1.5rem; list-style: none; padding: 0; margin: 0; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <nav aria-label="Menu utama">
+        <span class="brand">Nama Kamu</span>
+        <ul>
+          <li><a href="#tentang">Tentang</a></li>
+          <li><a href="#skill">Skill</a></li>
+          <li><a href="#proyek">Proyek</a></li>
+          <li><a href="#kontak">Kontak</a></li>
+        </ul>
+        <button class="theme-btn" id="theme-btn" type="button" aria-label="Ganti tema terang atau gelap">Tema</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="wrap">
+        <!-- EDIT: ubah status sesuai kondisimu -->
+        <div class="status"><span class="dot" aria-hidden="true"></span> Terbuka untuk kerja remote</div>
+        <h1>Membangun tampilan web yang rapi dan teruji.</h1>
+        <!-- EDIT: satu kalimat posisimu -->
+        <p>Saya database engineer yang beralih ke front-end. Saya terbiasa memantau sistem dan menguji aplikasi mobile, jadi saya peduli pada tampilan yang tidak rusak.</p>
+        <a class="btn" href="#proyek">Lihat proyek</a>
+      </div>
+    </section>
+
+    <!-- ===== TENTANG ===== -->
+    <section id="tentang">
+      <div class="wrap">
+        <h2>Tentang saya</h2>
+        <!-- EDIT: ceritakan perjalananmu dengan bahasamu sendiri, 3-4 kalimat -->
+        <p>Saya mulai dari testing aplikasi Android dan iOS, lalu bekerja sebagai database engineer yang memantau kondisi sistem. Dari situ saya sadar bahwa bagian yang paling saya sukai adalah membuat data terlihat jelas oleh penggunanya.</p>
+        <p>Sekarang saya belajar HTML, CSS, JavaScript, dan React, sambil membangun proyek nyata untuk portofolio.</p>
+      </div>
+    </section>
+
+    <!-- ===== SKILL ===== -->
+    <section id="skill">
+      <div class="wrap">
+        <h2>Skill</h2>
+        <div class="skills">
+          <!-- EDIT: sesuaikan dengan yang benar-benar kamu kuasai -->
+          <div class="skill-box"><h3>Front-end</h3><p>HTML, CSS, JavaScript, React (sedang dipelajari)</p></div>
+          <div class="skill-box"><h3>Database</h3><p>SQL (DML), monitoring database</p></div>
+          <div class="skill-box"><h3>Testing</h3><p>Manual testing aplikasi Android dan iOS</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROYEK ===== -->
+    <section id="proyek">
+      <div class="wrap">
+        <h2>Proyek</h2>
+        <div class="projects">
+
+          <!-- Salin blok <article> ini untuk menambah proyek.
+               Ganti .thumb dengan <img src="img/nama.png" alt="Deskripsi gambar"> kalau sudah punya screenshot. -->
+          <article class="card">
+            <div class="thumb">Screenshot proyek</div>
+            <div class="card-body">
+              <h3>Dashboard status layanan</h3>
+              <p>Dashboard yang menampilkan kondisi layanan dan database, dibuat dari pengalaman saya memantau sistem.</p>
+              <ul class="tags"><li>React</li><li>Chart.js</li><li>Sedang dikerjakan</li></ul>
+              <div class="links">
+                <a href="#">Demo</a>
+                <a href="#">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb">Screenshot proyek</div>
+            <div class="card-body">
+              <h3>Aplikasi pencatat tiket</h3>
+              <p>Tambah, ubah, hapus, dan filter tiket bug, terhubung ke database.</p>
+              <ul class="tags"><li>JavaScript</li><li>SQL</li><li>Rencana</li></ul>
+              <div class="links">
+                <a href="#">Demo</a>
+                <a href="#">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="thumb">Screenshot proyek</div>
+            <div class="card-body">
+              <h3>Website portofolio ini</h3>
+              <p>Halaman responsif dengan mode gelap, dibuat dengan HTML, CSS, dan JavaScript biasa.</p>
+              <ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+              <div class="links">
+                <a href="#">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== KONTAK ===== -->
+    <section id="kontak">
+      <div class="wrap">
+        <h2>Kontak</h2>
+        <p>Tertarik berdiskusi atau punya lowongan remote? Hubungi saya.</p>
+        <!-- EDIT: ganti dengan link aslimu -->
+        <ul class="contact-list">
+          <li><a href="mailto:email@contoh.com">email@contoh.com</a></li>
+          <li><a href="https://www.linkedin.com/in/username">LinkedIn</a></li>
+          <li><a href="https://github.com/username">GitHub</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">&copy; <span id="tahun"></span> Nama Kamu</div>
+  </footer>
+
+  <script>
+    // ============ JAVASCRIPT ============
+    // 1. Isi tahun di footer secara otomatis
+    document.getElementById("tahun").textContent = new Date().getFullYear();
+
+    // 2. Tombol ganti tema: simpan pilihan di browser supaya diingat saat halaman dibuka lagi
+    const tombol = document.getElementById("theme-btn");
+    const root = document.documentElement;
+
+    try {
+      const tersimpan = localStorage.getItem("tema");
+      if (tersimpan) root.setAttribute("data-theme", tersimpan);
+    } catch (e) { /* penyimpanan tidak tersedia, abaikan */ }
+
+    tombol.addEventListener("click", () => {
+      const sekarangGelap =
+        root.getAttribute("data-theme") === "dark" ||
+        (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+      const baru = sekarangGelap ? "light" : "dark";
+      root.setAttribute("data-theme", baru);
+      try { localStorage.setItem("tema", baru); } catch (e) {}
+    });
+  </script>
+</body>
+</html>
